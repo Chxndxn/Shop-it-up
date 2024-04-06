@@ -3,6 +3,7 @@ const router = express.Router();
 const productController = require("../controllers/productController");
 const categoryController = require("../controllers/categoryController");
 const brandController = require("../controllers/brandController");
+const userController = require("../controllers/userController");
 
 // Product
 router.post("/product", productController.createProduct);
@@ -22,5 +23,11 @@ router.post("/category", categoryController.createCategory);
 router.get("/category", categoryController.getAllCategories);
 router.put("/category/:id", categoryController.updateCategory);
 router.delete("/category/:id", categoryController.deleteCategory);
+
+// User
+router.post("/user", userController.createUser);
+router.get("/user/:id", userController.getUserById);
+router.put("/user/:id", userController.updateUser);
+router.delete("/user/:id", userController.deleteUser);
 
 module.exports = router;
