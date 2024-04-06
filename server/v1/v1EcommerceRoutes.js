@@ -5,6 +5,7 @@ const categoryController = require("../controllers/categoryController");
 const brandController = require("../controllers/brandController");
 const userController = require("../controllers/userController");
 const orderController = require("../controllers/orderController");
+const cartController = require("../controllers/cartController");
 
 // Product
 router.post("/product", productController.createProduct);
@@ -36,5 +37,11 @@ router.post("/order", orderController.createOrder);
 router.get("/order", orderController.getOrdersByUser);
 router.put("/order/:id", orderController.updateOrder);
 router.delete("/order/:id", orderController.deleteOrder);
+
+// Cart
+router.post("/cart", cartController.addToCart);
+router.get("/cart", cartController.getCartByUser);
+router.put("/cart/:id", cartController.updateCart);
+router.delete("/cart/:id", cartController.deleteFromCart);
 
 module.exports = router;
