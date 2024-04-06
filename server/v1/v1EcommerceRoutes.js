@@ -11,4 +11,10 @@ router.get("/product/:id", productController.getProductById);
 router.put("/product/:id", productController.updateProduct);
 router.delete("/product/:id", productController.deleteProduct);
 
+// Brand
+router.post("/brand", brandController.createBrand);
+router.get("/brand", brandController.getAllBrands);
+router.put("/brand/:id", brandController.updateBrand);
+router.delete("/brand/:id", brandController.deleteBrand);
+
 module.exports = router;
