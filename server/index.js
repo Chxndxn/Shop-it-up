@@ -3,6 +3,7 @@ const loadEnvironment = require('./loadEnvironment');
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const { connectDB } = require("./config/dbConfig");
+const v1EcommerceRoutes = require("./v1/v1EcommerceRoutes");
 const PORT = process.env.PORT;
 
 connectDB();
@@ -17,3 +18,5 @@ app.use(express.json());
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+app.use("/api/v1/shopitup", v1EcommerceRoutes);
