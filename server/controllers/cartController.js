@@ -40,7 +40,8 @@ exports.updateCart = async (req, res) => {
         new: true,
       });
       if (updatedCart) {
-        res.status(200).json(updatedCart);
+        const result = await updatedCart.populate("product");
+        res.status(200).json(result);
       } else {
         res.status(404).json({ message: "No items in the cart to update." });
       }
