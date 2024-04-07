@@ -16,6 +16,7 @@ const orderSchema = new Schema(
     paymentStatus: { type: String, default: "pending" },
     status: { type: String, default: "pending" },
     selectedAddress: { type: Schema.Types.Mixed, required: true },
+    isActive: { type: Boolean, default: true }
   },
   { timestamps: true }
 );
