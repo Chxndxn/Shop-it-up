@@ -34,7 +34,8 @@ router.delete("/user/:id", userController.deleteUser);
 
 // Order
 router.post("/order", orderController.createOrder);
-router.get("/order", orderController.getOrdersByUser);
+router.get("/order", orderController.getAllOrders);
+router.get("/order/:id", orderController.getOrdersByUser);
 router.put("/order/:id", orderController.updateOrder);
 router.delete("/order/:id", orderController.deleteOrder);
 
