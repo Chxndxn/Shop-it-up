@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 const Login = () => {
   return (
     <>
       <div className="flex h-screen justify-center items-center">
         <div className="w-full md:max-w-md px-6 py-12 lg:px-8">
-          <div className="ring-2 rounded-xl ring-gray-200 shadow-lg px-6 py-1">
+          <div className="ring-2 rounded-xl ring-gray-200 shadow px-6 py-1 bg-white">
             <div className="mx-auto w-full max-w-sm">
               <h1 className="mt-8 lg:text-4xl text-2xl leading-9 tracking-tight text-black font-medium">
                 Log in
@@ -66,9 +68,11 @@ const Login = () => {
                 <p className="mt-10 mb-5 text-center text-sm font-medium text-gray-950">
                   Do not have an account?{" "}
                 </p>
+                <Link to="/signup">
                 <button className="flex w-full justify-center rounded-md bg-gray-700 px-3 py-1.5 text-sm leading-6 text-white shadow-lg hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   Create an account
                 </button>
+                </Link>
               </div>
             </div>
           </div>
