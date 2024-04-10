@@ -6,6 +6,7 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ children }) => {
   const user = {
@@ -41,7 +42,12 @@ const Navbar = ({ children }) => {
                         alt="Your Company"
                       />
                     </div>
-                    <h1 className="text-2xl text-white ml-2 font-medium">Shop it up</h1>
+                    <Link
+                      to="/"
+                      className="text-2xl text-white ml-2 font-medium"
+                    >
+                      Shop it up
+                    </Link>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
@@ -66,14 +72,14 @@ const Navbar = ({ children }) => {
                     <div className="ml-4 flex items-center md:ml-6">
                       <button
                         type="button"
-                        className="relative rounded-full mt-1 bg-gray-800 text-gray-400 hover:text-white"
+                        className="relative rounded-full mt-2 bg-gray-800 text-gray-400 hover:text-white"
                       >
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">View notifications</span>
-                        <ShoppingCartIcon
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <Link to="/cart">
+                          <ShoppingCartIcon
+                            className="h-6 w-6"
+                            aria-hidden="true"
+                          />
+                        </Link>
                       </button>
                       <span className="inline-flex items-center rounded-full mb-7 -ml-2 bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10">
                         3
@@ -179,16 +185,17 @@ const Navbar = ({ children }) => {
                         {user.email}
                       </div>
                     </div>
+
                     <button
                       type="button"
                       className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">View notifications</span>
-                      <ShoppingCartIcon
-                        className="h-6 w-6"
-                        aria-hidden="true"
-                      />
+                      <Link to="/cart">
+                        <ShoppingCartIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </Link>
                     </button>
                     <span className="inline-flex items-center rounded-full mb-7 -ml-2 bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10">
                       3
