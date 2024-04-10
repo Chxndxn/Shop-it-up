@@ -1,3 +1,6 @@
+import CartPage from "./pages/CartPage";
+import ProductOverviewPage from "./pages/ProductOverviewPage";
+import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -16,6 +19,18 @@ function App() {
     {
       path: "/signup",
       element: <SignupPage></SignupPage>,
+    },
+    {
+      path: "/cart",
+      element: <CartPage></CartPage>,
+    },
+    {
+      path: "/checkout",
+      element: <Checkout></Checkout>,
+    },
+    {
+      path: "/product-overview",
+      element: <ProductOverviewPage></ProductOverviewPage>,
     },
   ]);
 
