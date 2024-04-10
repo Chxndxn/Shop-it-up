@@ -66,7 +66,7 @@ const ProductOverview = () => {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white rounded-lg shadow">
         <div className="pt-6">
           <nav aria-label="Breadcrumb">
             <ol
