@@ -1,11 +1,10 @@
 /* eslint-disable no-async-promise-executor */
 import axios from "axios";
+import { BASE_URL } from "../constants/api";
 
 export const fetchAllProductsAPI = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:8010/api/v1/shopitup/product"
-    );
+    const response = await axios.get(`${BASE_URL}/products`);
     if (response.status === 200) {
       return response;
     }
@@ -14,15 +13,16 @@ export const fetchAllProductsAPI = async () => {
   }
 };
 
-export const fetchProductsByFilterAPI = async (filter) => {
+export const fetchProductsByFilterAPI = async (filter, sort) => {
   try {
     let queryString = "";
     for (let key in filter) {
       queryString += `${key}=${filter[key]}&`;
     }
-    const response = await axios.get(
-      `http://localhost:8010/api/v1/shopitup/product?${queryString}`
-    );
+    for (let key in sort) {
+      queryString += `${key}=${sort[key]}&`;
+    }
+    const response = await axios.get(`${BASE_URL}/product?${queryString}`);
     if (response.status === 200) {
       return response;
     }
@@ -33,9 +33,7 @@ export const fetchProductsByFilterAPI = async (filter) => {
 
 export const fetchBrandsAPI = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:8010/api/v1/shopitup/brand"
-    );
+    const response = await axios.get(`${BASE_URL}/brand`);
     if (response.status === 200) {
       return response;
     }
@@ -46,9 +44,7 @@ export const fetchBrandsAPI = async () => {
 
 export const fetchCategoriesAPI = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:8010/api/v1/shopitup/category"
-    );
+    const response = await axios.get(`${BASE_URL}/category`);
     if (response.status === 200) {
       return response;
     }
