@@ -30,19 +30,18 @@ exports.getAllProducts = async (req, res) => {
     // Filter by category
     const category = req.query.category;
     if (category) {
-      query = query.find({ category: category });
-      totalProductsQuery = totalProductsQuery.find({ category: category });
+      query = query.find({ category: category.split(",") });
+      totalProductsQuery = totalProductsQuery.find({
+        category: category.split(","),
+      });
     }
 
     // Filter by brand
     const brand = req.query.brand;
     if (brand) {
-      query = query.find({ brand: brand });
-      totalProductsQuery = totalProductsQuery.find({ brand: brand });
+      query = query.find({ brand: brand.split(",") });
+      totalProductsQuery = totalProductsQuery.find({ brand: brand.split(",") });
     }
-
-    const totalProducts = await totalProductsQuery.count().exec();
-    console.log({ totalProducts });
 
     if (req.query._page && req.query._limit) {
       const pageSize = req.query._limit;
@@ -50,7 +49,15 @@ exports.getAllProducts = async (req, res) => {
       query = query.skip(pageSize * (page - 1)).limit(pageSize);
     }
 
+    if (req.query._sort && req.query._order) {
+      if (req.query._order === "desc") {
+        query = query.sort({ [req.query._sort]: -1 });
+      } else {
+        query = query.sort({ [req.query._sort]: 1 });
+      }
+    }
     const productsList = await query.exec();
+    const totalProducts = await totalProductsQuery.count().exec();
     if (productsList.length > 0) {
       res.set("X-Total-Count", totalProducts);
       res.status(200).json(productsList);
@@ -85,7 +92,11 @@ exports.updateProduct = async (req, res) => {
     const productId = req.params.id;
     const productDetails = req.body;
     if (productId) {
-      const updatedProduct = await Product.findByIdAndUpdate(productId, productDetails, { new: true });
+      const updatedProduct = await Product.findByIdAndUpdate(
+        productId,
+        productDetails,
+        { new: true }
+      );
       if (updatedProduct) {
         res.status(200).json(updatedProduct);
       } else {
