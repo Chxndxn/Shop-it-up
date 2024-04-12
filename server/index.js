@@ -10,9 +10,13 @@ connectDB();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  exposedHeaders: ['X-Total-Count']
-}))
+app.use(
+  cors({
+    exposedHeaders: ["X-Total-Count"],
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.listen(PORT, () => {
