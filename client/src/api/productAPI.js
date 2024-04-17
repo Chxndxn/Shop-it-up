@@ -13,7 +13,7 @@ export const fetchAllProductsAPI = async () => {
   }
 };
 
-export const fetchProductsByFilterAPI = async (filter, sort) => {
+export const fetchProductsByFilterAPI = async (filter, sort, pagination) => {
   try {
     let queryString = "";
     for (let key in filter) {
@@ -22,9 +22,15 @@ export const fetchProductsByFilterAPI = async (filter, sort) => {
     for (let key in sort) {
       queryString += `${key}=${sort[key]}&`;
     }
+    for (let key in pagination) {
+      queryString += `${key}=${pagination[key]}&`;
+    }
     const response = await axios.get(`${BASE_URL}/product?${queryString}`);
     if (response.status === 200) {
-      return response;
+      return {
+        products: response.data,
+        totalProducts: response.headers.get("x-total-count"),
+      };
     }
   } catch (error) {
     console.log(error);
@@ -45,6 +51,17 @@ export const fetchBrandsAPI = async () => {
 export const fetchCategoriesAPI = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/category`);
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchProductByIdAPI = async (productId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/product/${productId}`);
     if (response.status === 200) {
       return response;
     }
