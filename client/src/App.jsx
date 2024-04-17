@@ -31,7 +31,7 @@ function App() {
       element: <Checkout></Checkout>,
     },
     {
-      path: "/product-overview",
+      path: "/product-overview/:id",
       element: <ProductOverviewPage></ProductOverviewPage>,
     },
   ]);
