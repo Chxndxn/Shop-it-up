@@ -16,34 +16,20 @@ import {
   selectCategories,
   fetchCategories,
   fetchProductsByFilter,
+  selectTotalProducts,
 } from "../../slice/productSlice";
 import MobileFilter from "../filter/MobileFilter";
 import DesktopFilter from "../filter/DesktopFilter";
 import Paginator from "../paginator/Paginator";
 import ProductGrid from "./ProductGrid";
+import { PAGE_LIMIT } from "../../constants/constants";
 
 const ProductList = () => {
   const dispatch = useDispatch();
-  // Variables
   const products = useSelector(selectAllProducts);
   const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
-
-  // State
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState({});
-
-  // On mount
-  useEffect(() => {
-    dispatch(fetchBrands());
-    dispatch(fetchCategories());
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchProductsByFilter(filter, sort));
-  }, [dispatch, filter, sort]);
-
+  const totalProducts = useSelector(selectTotalProducts);
   const sortOptions = [
     { name: "Best Rating", sort: "rating", order: "desc", current: false },
     { name: "Price: Low to High", sort: "price", order: "asc", current: false },
@@ -54,7 +40,6 @@ const ProductList = () => {
       current: false,
     },
   ];
-
   const filters = [
     {
       id: "category",
@@ -68,6 +53,28 @@ const ProductList = () => {
     },
   ];
 
+  // State
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
+
+  // On mount
+  useEffect(() => {
+    dispatch(fetchBrands());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const pagination = { _page: page, _limit: PAGE_LIMIT };
+    dispatch(fetchProductsByFilter({ filter, sort, pagination }));
+  }, [dispatch, filter, sort, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [totalProducts, filter, sort]);
+
+  // Functions
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
   };
@@ -93,6 +100,10 @@ const ProductList = () => {
   const handleSort = (e, option) => {
     const sort = { _sort: option.sort, _order: option.order };
     setSort(sort);
+  };
+
+  const handlePage = (page) => {
+    setPage(page);
   };
 
   return (
@@ -195,7 +206,13 @@ const ProductList = () => {
               </section>
 
               {/* Pagination */}
-              <Paginator />
+              <Paginator
+                page={page}
+                setPage={setPage}
+                handlePage={handlePage}
+                pageLimit={PAGE_LIMIT}
+                totalProducts={totalProducts}
+              />
             </main>
           </div>
         </div>
