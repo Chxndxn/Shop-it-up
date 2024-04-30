@@ -4,6 +4,7 @@ import ShopItUp from "../../../assets/Shopitup-svg.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLoggedInUser, checkUser } from "../authSlice";
 import { EMAIL_REGEX } from "../../../constants/constants";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ const Login = () => {
   const loginUser = (data) => {
     dispatch(checkUser({ email: data.email, password: data.password }));
   };
+
+  useEffect(() => {
+    sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+  }, [user]);
 
   return (
     <>

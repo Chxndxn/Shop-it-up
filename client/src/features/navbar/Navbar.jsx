@@ -7,6 +7,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../cart/cartSlice";
 
 const Navbar = ({ children }) => {
   const user = {
@@ -25,6 +27,8 @@ const Navbar = ({ children }) => {
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
   };
+
+  const cartItems = useSelector(selectCartItems);
 
   return (
     <>
@@ -81,9 +85,11 @@ const Navbar = ({ children }) => {
                           />
                         </Link>
                       </button>
-                      <span className="inline-flex items-center rounded-full mb-7 -ml-2 bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10">
-                        3
-                      </span>
+                      {cartItems.length > 0 && (
+                        <span className="inline-flex items-center rounded-full mb-7 -ml-2 bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10">
+                          {cartItems.length}
+                        </span>
+                      )}
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
