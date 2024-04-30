@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import ShopItUp from "../../assets/Shopitup-svg.svg";
+import ShopItUp from "../../../assets/Shopitup-svg.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, selectLoggedInUser } from "../authSlice";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../../constants/constants";

@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import ShopItUp from "../../assets/Shopitup-svg.svg";
+import ShopItUp from "../../../assets/Shopitup-svg.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLoggedInUser, checkUser } from "../authSlice";
 import { EMAIL_REGEX } from "../../../constants/constants";
