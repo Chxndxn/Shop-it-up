@@ -1,10 +1,13 @@
 const Cart = require("../models/cart");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 exports.getCartByUser = async (req, res) => {
   try {
     const user = req.query.user;
     if (user) {
-      const cart = await Cart.find({ user: user }).populate("product");
+      const cart = await Cart.find({ user: new ObjectId(user) }).populate(
+        "product"
+      );
       if (cart.length > 0) {
         res.status(200).json(cart);
       } else {
@@ -22,7 +25,9 @@ exports.addToCart = async (req, res) => {
     const cartItems = req.body;
     if (cartItems.length > 0 || cartItems) {
       const cart = await Cart.create(cartItems);
-      const result = await Cart.findById(cart._id).populate("product").populate("user");
+      const result = await Cart.findById(cart._id)
+        .populate("product")
+        .populate("user");
       res.status(201).json(result);
     }
   } catch (err) {
