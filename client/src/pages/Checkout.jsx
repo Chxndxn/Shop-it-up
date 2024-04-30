@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import Navbar from "../components/navbar/Navbar";
+import Navbar from "../features/navbar/Navbar";
 const Checkout = () => {
   const products = [
     {

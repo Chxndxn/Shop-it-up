@@ -29,7 +29,7 @@ const Cart = () => {
   ];
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <main className="bg-white w-full rounded-lg shadow">
           <div className="mx-auto w-full px-4 py-6 space-y-6 sm:px-6 lg:px-8">
             <h1 className="md:text-4xl text-2xl font-bold tracking-tight text-gray-900">

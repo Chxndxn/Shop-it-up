@@ -2,14 +2,16 @@
 import { useEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProductById, fetchProductById } from "../../slice/productSlice";
+import { selectProductById, fetchProductById } from "../productSlice";
 import { useParams } from "react-router-dom";
+import { selectCartItems, addToCart } from "../../cart/cartSlice";
 
 const ProductOverview = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const productId = params.id;
   const product = useSelector(selectProductById);
+  const cartItems = useSelector(selectCartItems);
 
   useEffect(() => {
     dispatch(fetchProductById({ productId }));
@@ -33,6 +35,19 @@ const ProductOverview = () => {
 
   // const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   // const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+
+  // Methods
+  const handleCart = (e) => {
+    e.prevenetDefault();
+    if (cartItems.findIndex((item) => item.product.id === product.id) < 0) {
+      const newItem = {
+        product: product.id,
+        quantity: 1,
+      };
+      console.log(newItem);
+      dispatch(addToCart({ cartItem: newItem }));
+    }
+  };
 
   if (product) {
     return (
@@ -288,6 +303,7 @@ const ProductOverview = () => {
                   <button
                     type="submit"
                     className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    onClick={handleCart}
                   >
                     Add to cart
                   </button>

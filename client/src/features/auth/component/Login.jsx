@@ -1,17 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ShopItUp from "../../assets/Shopitup-svg.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { selectLoggedInUser, checkUser } from "../authSlice";
+import { EMAIL_REGEX } from "../../../constants/constants";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const loginUser = (data) => {
+    dispatch(checkUser({ email: data.email, password: data.password }));
+  };
+
   return (
     <>
+      {user && <Navigate to="/" replace={true}></Navigate>}
       <div className="flex h-screen justify-center items-center">
         <div className="w-full md:max-w-md px-6 py-12 lg:px-8">
           <div>
@@ -28,31 +38,37 @@ const Login = () => {
               <form
                 className="space-y-6"
                 noValidate
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(loginUser)}
               >
                 <div>
                   <label
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-950"
                   >
-                    Email or Mobile number
+                    Email Address
                   </label>
                   <div className="mt-2">
                     <input
                       id="email"
                       {...register("email", {
-                        required: "Email or mobile number is required",
+                        required: "Email address is required.",
+                        pattern: {
+                          value: EMAIL_REGEX,
+                          message: "Invalid email address.",
+                        },
                       })}
                       type="email"
                       autoComplete="email"
-                      placeholder={errors.email ? errors.email.message : ""}
                       className={`block w-full rounded-md ring-1 ring-inset ring-gray-300 py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.password
-                          ? `placeholder:text-red-400 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
+                        errors.email ? `ring-red-300` : `ring-gray-300`
                       } sm:text-sm sm:leading-6`}
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-xs text-red-500 p-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -68,20 +84,20 @@ const Login = () => {
                     <input
                       id="password"
                       {...register("password", {
-                        required: "Password is required",
+                        required: "Password is required.",
                       })}
                       type="password"
                       autoComplete="current-password"
-                      placeholder={
-                        errors.password ? errors.password.message : ""
-                      }
                       className={`block w-full rounded-md ring-1 ring-inset ring-gray-300 py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.password
-                          ? `placeholder:text-red-400 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
+                        errors.password ? `ring-red-300` : `ring-gray-300`
                       } sm:text-sm sm:leading-6`}
                     />
                   </div>
+                  {errors.password && (
+                    <p className="text-xs text-red-500 p-1">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>

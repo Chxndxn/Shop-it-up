@@ -1,18 +1,27 @@
-import { Link } from "react-router-dom";
+/* eslint-disable react/jsx-key */
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ShopItUp from "../../assets/Shopitup-svg.svg";
-
+import { useDispatch, useSelector } from "react-redux";
+import { createUser, selectLoggedInUser } from "../authSlice";
+import { EMAIL_REGEX, PASSWORD_REGEX } from "../../../constants/constants";
 const Signup = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const signupUser = (data) => {
+    dispatch(createUser({ email: data.email, password: data.password }));
+  };
 
   return (
     <>
+      {user && <Navigate to="/" replace={true}></Navigate>}
       <div className="flex h-screen justify-center items-center">
         <div className="w-full md:max-w-md px-6 py-4 lg:px-8">
           <div>
@@ -29,7 +38,7 @@ const Signup = () => {
               <form
                 noValidate
                 className="space-y-3"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(signupUser)}
               >
                 <div>
                   <label
@@ -43,21 +52,26 @@ const Signup = () => {
                     <input
                       id="name"
                       {...register("name", {
-                        required: `First and last name is required`,
+                        required: `First and last name is required.`,
+                        maxLength: 30,
                       })}
                       type="text"
-                      placeholder={
-                        errors.name
-                          ? errors.name.message
-                          : "First and last name"
-                      }
+                      placeholder="First and last name"
                       className={`block w-full rounded-md ring-1 ring-inset py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.name
-                          ? `placeholder:text-red-500 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
+                        errors.name ? `ring-red-300` : `ring-gray-300`
                       }  sm:text-sm sm:leading-6`}
                     />
                   </div>
+                  {errors.name && errors.name.type === "required" && (
+                    <p className="text-xs text-red-500 p-1">
+                      {errors.name.message}
+                    </p>
+                  )}
+                  {errors.name && errors.name.type === "maxLength" && (
+                    <p className="text-xs text-red-500 p-1">
+                      `Name should be within 30 characters only.`
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -65,54 +79,31 @@ const Signup = () => {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-950"
                   >
-                    Email address
+                    Email Address
                   </label>
-                  <div className="mt-2">
+                  <div className="flex flex-col-2 gap-x-4 mt-2">
                     <input
                       id="email"
                       {...register("email", {
-                        required: `Email address is required`,
-                      })}
-                      type="email"
-                      autoComplete="email"
-                      placeholder={
-                        errors.email ? errors.email.message : "Email address"
-                      }
-                      className={`block w-full rounded-md ring-1 ring-inset py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.email
-                          ? `placeholder:text-red-500 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
-                      }  sm:text-sm sm:leading-6`}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="mobileNumber"
-                    className="block text-sm font-medium leading-6 text-gray-950"
-                  >
-                    Mobile Number
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      id="mobileNumber"
-                      {...register("mobileNumber", {
-                        required: `Mobile number is required`,
+                        required: `Email Address is required.`,
+                        pattern: {
+                          value: EMAIL_REGEX,
+                          message: "Invalid email address.",
+                        },
                       })}
                       type="text"
-                      placeholder={
-                        errors.mobileNumber
-                          ? errors.mobileNumber.message
-                          : "Email address"
-                      }
+                      autoComplete="email"
+                      placeholder="xyz@email.com"
                       className={`block w-full rounded-md ring-1 ring-inset py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.mobileNumber
-                          ? `placeholder:text-red-500 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
+                        errors.email ? `ring-red-300` : `ring-gray-300`
                       }  sm:text-sm sm:leading-6`}
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-xs text-red-500 p-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -128,21 +119,26 @@ const Signup = () => {
                     <input
                       id="password"
                       {...register("password", {
-                        required: `Password is required`,
+                        required: `Password is required.`,
+                        pattern: {
+                          value: PASSWORD_REGEX,
+                          message: `- at least 8 characters\n
+                          - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number\n
+                          - Can contain special characters`,
+                        },
                       })}
                       type="password"
                       autoComplete="current-password"
-                      placeholder={
-                        errors.password
-                          ? errors.password.message
-                          : "Email address"
-                      }
+                      placeholder="At least 8 characters"
                       className={`block w-full rounded-md ring-1 ring-inset  py-2 px-3 text-gray-900 shadow-sm ${
-                        errors.password
-                          ? `placeholder:text-red-500 ring-red-300`
-                          : `placeholder:text-gray-400 ring-gray-300`
+                        errors.password ? `ring-red-300` : `ring-gray-300`
                       }  sm:text-sm sm:leading-6`}
                     />
+                    {errors.password && (
+                      <p className="text-xs text-red-500 p-1">
+                        {errors.password.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 

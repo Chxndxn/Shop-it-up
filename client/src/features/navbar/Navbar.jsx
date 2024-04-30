@@ -17,9 +17,9 @@ const Navbar = ({ children }) => {
   };
   const navigation = [{ name: "Products", href: "#", current: true }];
   const userNavigation = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
+    { name: "Your Profile", to: "/" },
+    { name: "Settings", to: "/" },
+    { name: "Sign out", to: "/login" },
   ];
 
   const classNames = (...classes) => {
@@ -111,15 +111,15 @@ const Navbar = ({ children }) => {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.to}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}

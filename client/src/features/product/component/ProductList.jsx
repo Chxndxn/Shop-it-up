@@ -17,12 +17,12 @@ import {
   fetchCategories,
   fetchProductsByFilter,
   selectTotalProducts,
-} from "../../slice/productSlice";
-import MobileFilter from "../filter/MobileFilter";
-import DesktopFilter from "../filter/DesktopFilter";
-import Paginator from "../paginator/Paginator";
+} from "../productSlice";
+import MobileFilter from "../../filter/MobileFilter";
+import DesktopFilter from "../../filter/DesktopFilter";
+import Paginator from "../../paginator/Paginator";
 import ProductGrid from "./ProductGrid";
-import { PAGE_LIMIT } from "../../constants/constants";
+import { PAGE_LIMIT } from "../../../constants/constants";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -108,7 +108,7 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow">
           <div>
             {/* Mobile filter dialog */}
