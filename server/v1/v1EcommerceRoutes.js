@@ -6,6 +6,7 @@ const brandController = require("../controllers/brandController");
 const userController = require("../controllers/userController");
 const orderController = require("../controllers/orderController");
 const cartController = require("../controllers/cartController");
+const authController = require("../controllers/authController");
 
 // Product
 router.post("/product", productController.createProduct);
@@ -44,5 +45,8 @@ router.post("/cart", cartController.addToCart);
 router.get("/cart", cartController.getCartByUser);
 router.put("/cart/:id", cartController.updateCart);
 router.delete("/cart/:id", cartController.deleteFromCart);
+
+// Auth
+router.post("/auth", authController.loginUser);
 
 module.exports = router;
