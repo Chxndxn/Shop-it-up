@@ -12,6 +12,7 @@ const ProductOverview = () => {
   const productId = params.id;
   const product = useSelector(selectProductById);
   const cartItems = useSelector(selectCartItems);
+  const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
 
   useEffect(() => {
     dispatch(fetchProductById({ productId }));
@@ -37,16 +38,15 @@ const ProductOverview = () => {
   // const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   // Methods
-  const handleCart = (e) => {
-    e.prevenetDefault();
-    if (cartItems.findIndex((item) => item.product.id === product.id) < 0) {
-      const newItem = {
+  const handleCart = () => {
+    const newItem = {
+      products: {
         product: product.id,
-        quantity: 1,
-      };
-      console.log(newItem);
-      dispatch(addToCart({ cartItem: newItem }));
-    }
+        quantity: 1
+      },
+      user: user.id,
+    };
+    dispatch(addToCart(newItem));
   };
 
   if (product) {
@@ -176,7 +176,7 @@ const ProductOverview = () => {
                   </div>
                 </div>
 
-                <form className="mt-10">
+                <form className="mt-10" action="#">
                   {/* Colors */}
                   {/* <div>
                     <h3 className="text-sm font-medium text-gray-900">Color</h3>
@@ -299,22 +299,20 @@ const ProductOverview = () => {
                       </div>
                     </RadioGroup>
                   </div> */}
-
-                  <button
-                    type="submit"
-                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                    onClick={handleCart}
-                  >
-                    Add to cart
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Buy now
-                  </button>
                 </form>
+                <button
+                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  onClick={handleCart}
+                >
+                  Add to cart
+                </button>
+
+                <button
+                  type="submit"
+                  className="mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  Buy now
+                </button>
               </div>
 
               <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
